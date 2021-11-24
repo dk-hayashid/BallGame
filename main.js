@@ -1,8 +1,7 @@
-
 // setup canvas
-
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
+const showTime = document.querySelector('h2');
 
 var width = canvas.width = window.innerWidth;
 var height = canvas.height = window.innerHeight;
@@ -12,8 +11,6 @@ function resizeWindow() {
     height = canvas.height = window.innerHeight;
 }
 window.addEventListener('resize', resizeWindow);
-
-// command operation
 
 
 function random(min, max) {
@@ -29,17 +26,17 @@ function Ball(x, y, velX, velY, color, size) {
     this.velY = velY;
     this.color = color;
     this.size = size;
-    this.nCollision = 0 ;
+    this.nCollision = 0;
 }
 
-Ball.prototype.draw = function () {
+Ball.prototype.draw = function() {
     ctx.beginPath();
     ctx.fillStyle = this.color;
     ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
     ctx.fill();
 }
 
-Ball.prototype.update = function () {
+Ball.prototype.update = function() {
     if ((this.x + this.size) >= width) {
         this.velX = -(this.velX);
     }
@@ -57,7 +54,7 @@ Ball.prototype.update = function () {
     this.y += this.velY;
 }
 
-Ball.prototype.collisionDetect = function () {
+Ball.prototype.collisionDetect = function() {
     for (let j = 0; j < balls.length; j++) {
         if (!(this === balls[j])) {
             const dx = this.x - balls[j].x;
@@ -66,7 +63,7 @@ Ball.prototype.collisionDetect = function () {
 
             if (distance < this.size + balls[j].size) {
                 balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
-                this.nCollision ++;
+                this.nCollision++;
             }
 
         }
@@ -93,6 +90,7 @@ while (balls.length < 10) {
 
 let myball = new Ball(100, 100, 0, 0, 'rgba(255,0,255)', 10);
 canvas.addEventListener('mousemove', mousemove);
+
 function mousemove(e) {
     myball.x = e.clientX;
     myball.y = e.clientY;
@@ -102,8 +100,9 @@ balls.push(myball);
 
 
 var counter = 0;
+
 function loop() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+    ctx.fillStyle = 'rgba(50, 50, 50, 0.25)';
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < balls.length; i++) {
@@ -115,15 +114,17 @@ function loop() {
     // if ((counter % 100) === 0) {
     //     console.log(balls[balls.length - 1].nCollision);
     // }
-    // counter++;
     console.log(balls[balls.length - 1].nCollision);
-    
-    if (balls[balls.length - 1].nCollision > 2){
-        document.location.href="gameover.html"
+
+    if (balls[balls.length - 1].nCollision > 2) {
+        document.location.href = "gameover.html"
     }
+
+    showTime.textContent = 'Time:' + counter;
 
     requestAnimationFrame(loop);
 
+    counter++;
 }
 
 loop();
