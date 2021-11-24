@@ -9,17 +9,38 @@
         }
         
         p {
-            color: white;
+            color: black;
+        }
+        
+        button {
+            color: red;
+            font-weight: bold;
         }
     </style>
 </header>
 
 <body>
     <img src="img/gameover.png" width="500px">
-    <p><a href="index.html">再挑戦</a></p>
-</body>
-<script>
-    const
-</script>
+    <p></p>
+
+    <label>ボール数: </label>
+    <input type='text' value='10'>
+    <button type='submit'>再挑戦</button>
+
+    <script>
+        const time = location.search.split("=")[1];
+        const para = document.querySelector('p');
+        const button = document.querySelector('button');
+        para.textContent = 'You survived for ' + time + ' frames!';
+
+
+        function transferPage() {
+            let input = document.querySelector('input');
+            let mainPage = 'index.html?nballs=' + input.value;
+            window.location.href = mainPage;
+        }
+
+        button.addEventListener('click', transferPage)
+    </script>
 
 </html>

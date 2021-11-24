@@ -31,6 +31,6 @@ h2 {
     margin: 0;
     top: 30px;
     right: 20px;
-    color: red;
-    text-shadow: 0 0 4px white;
+    color: rgb(169, 236, 11);
+    /* text-shadow: 0 0 4px white; */
 }

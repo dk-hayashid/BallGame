@@ -72,7 +72,9 @@ Ball.prototype.collisionDetect = function() {
 
 let balls = [];
 
-while (balls.length < 10) {
+
+const nBalls = location.search.split("=")[1];
+while (balls.length < nBalls) {
     let size = random(10, 20);
     let ball = new Ball(
         random(0 + size, width - size),
@@ -117,7 +119,7 @@ function loop() {
     console.log(balls[balls.length - 1].nCollision);
 
     if (balls[balls.length - 1].nCollision > 2) {
-        document.location.href = "gameover.html"
+        document.location.href = "gameover.html" + "?time=" + counter;
     }
 
     showTime.textContent = 'Time:' + counter;
