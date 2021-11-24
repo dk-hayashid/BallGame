@@ -116,9 +116,10 @@ function loop() {
     //     console.log(balls[balls.length - 1].nCollision);
     // }
     // counter++;
-
-    if (balls[balls.length - 1].nCollision > 1){
-        document.location.href="http://127.0.0.1:5500/js/oojs/bounding_balls/gameover.html"
+    console.log(balls[balls.length - 1].nCollision);
+    
+    if (balls[balls.length - 1].nCollision > 2){
+        document.location.href="gameover.html"
     }
 
     requestAnimationFrame(loop);
