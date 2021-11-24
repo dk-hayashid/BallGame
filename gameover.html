@@ -23,7 +23,7 @@
     <img src="img/gameover.png" width="500px">
     <p></p>
 
-    <label for='input'>ボール数: </label>
+    <label for='input'>ゲームレベル: </label>
     <select id='input'>
         <option value=''>--難易度を選んでね--</option>
         <option value='easy'>幼稚園児レベル</option>
@@ -42,8 +42,6 @@
 
         const select = document.querySelector('select');
 
-
-
         function transferPage() {
             var nballs;
             switch (select.value) {
@@ -51,16 +49,16 @@
                     nballs = 10;
                     break;
                 case 'middle':
-                    nballs = 20;
-                    break;
-                case 'difficult':
                     nballs = 30;
                     break;
+                case 'difficult':
+                    nballs = 50;
+                    break;
                 case 'hell':
-                    nballs = 40;
+                    nballs = 100;
                     break;
                 default:
-                    nballs = 20;
+                    nballs = 30;
             }
             let mainPage = 'index.html?nballs=' + nballs;
             window.location.href = mainPage;

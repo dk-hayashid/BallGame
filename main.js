@@ -13,6 +13,17 @@ function resizeWindow() {
 window.addEventListener('resize', resizeWindow);
 
 
+// setup parameter
+const nHeart = 5;
+const ul = document.querySelector('ul');
+for (let i = 1; i <= nHeart; i++) {
+    const li = document.createElement('li');
+    li.setAttribute('class', 'hp' + i);
+    li.textContent = "💛";
+    ul.appendChild(li);
+}
+
+
 function random(min, max) {
     // function to generate random number
     const num = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -72,7 +83,6 @@ Ball.prototype.collisionDetect = function() {
 
 let balls = [];
 
-
 var nBalls = location.search.split("=")[1];
 if (nBalls === undefined) {
     nBalls = 10;
@@ -123,7 +133,7 @@ function loop() {
     }
 
     // ゲーム終了条件
-    if (myballDamage >= 3) {
+    if (myballDamage >= nHeart) {
         document.location.href = "gameover.html" + "?time=" + counter;
         return;
     }
