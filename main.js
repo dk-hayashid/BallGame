@@ -103,8 +103,14 @@ function mousemove(e) {
 }
 balls.push(myball);
 
+function updateHp(nCollision) {
+    let li = document.querySelectorAll('li');
+    li[nCollision - 1].textContent = '💙';
+}
 
 var counter = 0;
+var myballDamage = 0;
+var timeDamage = 0;
 
 function loop() {
     ctx.fillStyle = 'rgba(50, 50, 50, 0.25)';
@@ -115,15 +121,30 @@ function loop() {
         balls[i].update();
         balls[i].collisionDetect();
     }
-    // myball.draw();
-    // if ((counter % 100) === 0) {
-    //     console.log(balls[balls.length - 1].nCollision);
-    // }
-    console.log(balls[balls.length - 1].nCollision);
 
-    if (balls[balls.length - 1].nCollision > 2) {
+    // ゲーム終了条件
+    if (myballDamage >= 3) {
         document.location.href = "gameover.html" + "?time=" + counter;
+        return;
     }
+
+    // HP減少条件 (1回以上の衝突 and 前回の衝突から10フレーム経過)
+    if (balls[balls.length - 1].nCollision > 1 && (counter - timeDamage) >= 50) {
+        timeDamage = counter;
+        myballDamage++;
+        updateHp(myballDamage);
+        // balls[balls.length - 1].nCollision = 0;
+    }
+
+    // タイミング緩和(前回の衝突から10フレームは衝突していてもノーカウント)
+    if ((counter - timeDamage) <= 50) {
+        balls[balls.length - 1].nCollision = 0;
+    }
+
+    console.log(myballDamage);
+
+
+
 
     showTime.textContent = 'Time:' + counter;
 

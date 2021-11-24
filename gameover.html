@@ -23,8 +23,15 @@
     <img src="img/gameover.png" width="500px">
     <p></p>
 
-    <label>ボール数: </label>
-    <input type='text' value='10'>
+    <label for='input'>ボール数: </label>
+    <select id='input'>
+        <option value=''>--難易度を選んでね--</option>
+        <option value='easy'>幼稚園児レベル</option>
+        <option value='middle'>凡人レベル</option>
+        <option value='difficult'>達人レベル</option>
+        <option value='hell'>地獄レベル</option>
+    </select>
+    <!-- <input type='text' value='10'> -->
     <button type='submit'>再挑戦</button>
 
     <script>
@@ -33,10 +40,29 @@
         const button = document.querySelector('button');
         para.textContent = 'You survived for ' + time + ' frames!';
 
+        const select = document.querySelector('select');
+
+
 
         function transferPage() {
-            let input = document.querySelector('input');
-            let mainPage = 'index.html?nballs=' + input.value;
+            var nballs;
+            switch (select.value) {
+                case 'easy':
+                    nballs = 10;
+                    break;
+                case 'middle':
+                    nballs = 20;
+                    break;
+                case 'difficult':
+                    nballs = 30;
+                    break;
+                case 'hell':
+                    nballs = 40;
+                    break;
+                default:
+                    nballs = 20;
+            }
+            let mainPage = 'index.html?nballs=' + nballs;
             window.location.href = mainPage;
         }
 

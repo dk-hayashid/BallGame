@@ -24,13 +24,29 @@ h1 {
     text-shadow: 0 0 4px white;
 }
 
-h2 {
+.time {
     font-size: 1rem;
     letter-spacing: -1px;
     position: absolute;
-    margin: 0;
-    top: 30px;
+    float: right;
+    top: 20px;
     right: 20px;
     color: rgb(169, 236, 11);
-    /* text-shadow: 0 0 4px white; */
+}
+
+ul {
+    font-size: 1rem;
+    letter-spacing: -1px;
+    position: absolute;
+    float: right;
+    top: 35px;
+    right: 20px;
+    color: rgb(169, 236, 11);
+}
+
+li {
+    font-size: 1em;
+    list-style: none;
+    float: left;
+    display: inline;
 }
