@@ -73,7 +73,10 @@ Ball.prototype.collisionDetect = function() {
 let balls = [];
 
 
-const nBalls = location.search.split("=")[1];
+var nBalls = location.search.split("=")[1];
+if (nBalls === undefined) {
+    nBalls = 10;
+}
 while (balls.length < nBalls) {
     let size = random(10, 20);
     let ball = new Ball(
