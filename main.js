@@ -104,9 +104,19 @@ while (balls.length < nBalls) {
 
 
 let myball = new Ball(100, 100, 0, 0, 'rgba(255,0,255)', 10);
+canvas.addEventListener('touchmove', touchmove);
 canvas.addEventListener('mousemove', mousemove);
 
+function touchmove(e) {
+
+    myball.x = e.changedTouches[0].clientX;
+    myball.y = e.changedTouches[0].clientY;
+    myball.draw();
+
+}
+
 function mousemove(e) {
+
     myball.x = e.clientX;
     myball.y = e.clientY;
     myball.draw();
@@ -123,7 +133,7 @@ var myballDamage = 0;
 var timeDamage = 0;
 
 function loop() {
-    ctx.fillStyle = 'rgba(50, 50, 50, 0.25)';
+    ctx.fillStyle = 'rgba(30, 30, 30, 0.25)';
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < balls.length; i++) {
