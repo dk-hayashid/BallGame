@@ -40,10 +40,14 @@ function Ball(x, y, velX, velY, color, size) {
     this.nCollision = 0;
 }
 
+function degToRad(angle) {
+    return angle * Math.PI / 180;
+}
+
 Ball.prototype.draw = function() {
     ctx.beginPath();
     ctx.fillStyle = this.color;
-    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+    ctx.arc(this.x, this.y, this.size, degToRad(0), degToRad(360));
     ctx.fill();
 }
 
@@ -104,6 +108,7 @@ while (balls.length < nBalls) {
 
 
 let myball = new Ball(100, 100, 0, 0, 'rgba(255,0,255)', 10);
+myball.size = 20;
 canvas.addEventListener('mousemove', mousemove);
 
 function mousemove(e) {
@@ -123,7 +128,7 @@ var myballDamage = 0;
 var timeDamage = 0;
 
 function loop() {
-    ctx.fillStyle = 'rgba(50, 50, 50, 0.25)';
+    ctx.fillStyle = 'rgba(255, 255, 0, 0.25)';
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < balls.length; i++) {
