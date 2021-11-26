@@ -1,0 +1,28 @@
+<!DOCTYPE>
+<html>
+
+<head></head>
+
+<body><canvas></canvas></body>
+<script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width = window.innerWidth;
+    const height = canvas.height = window.innerHeight;
+
+    ctx.fillStyle = 'rgb(0,0,0)';
+    ctx.fillRect(0, 0, width, height);
+
+    const image = new Image();
+    image.src = 'smile.png';
+    let size = 50;
+
+    function mousemove(e) {
+        // console.log(e.clientX, e.clientY);
+        ctx.drawImage(image, 0, 0, 1000, 1000,
+            e.clientX - size / 2, e.clientY, 2 * size, 2 * size);
+    }
+    canvas.addEventListener('mousemove', mousemove);
+</script>
+
+</html>

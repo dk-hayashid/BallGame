@@ -107,16 +107,27 @@ while (balls.length < nBalls) {
     balls.push(ball);
 }
 
-
+// Player Ball
+const image = new Image();
+image.src = 'smile.png';
+// console.log(image.naturalWidth, image.naturalHeight);
 let myball = new Ball(100, 100, 0, 0, 'rgba(255,0,255)', 10);
 myball.size = 20;
-canvas.addEventListener('mousemove', mousemove);
+myball.draw = function() {
+    // ctx.beginPath();
+    // ctx.fillStyle = this.color;
+    // ctx.arc(this.x, this.y, this.size, degToRad(0), degToRad(360));
+    // ctx.fill();
+    ctx.drawImage(image, 0, 0, image.naturalWidth, image.naturalHeight,
+        this.x - this.size, this.y - this.size, 2 * this.size, 2 * this.size);
+}
 
 function mousemove(e) {
     myball.x = e.clientX;
     myball.y = e.clientY;
     myball.draw();
 }
+canvas.addEventListener('mousemove', mousemove);
 balls.push(myball);
 
 function updateHp(nCollision) {
@@ -154,6 +165,12 @@ function loop() {
         updateHp(myballDamage);
         // balls[balls.length - 1].nCollision = 0;
     }
+    if ((counter - timeDamage) <= 50) {
+        image.src = 'pien.png';
+    } else {
+        image.src = 'smile.png'
+    }
+    console.log(counter - timeDamage);
 
     // タイミング緩和(前回の衝突から10フレームは衝突していてもノーカウント)
     if ((counter - timeDamage) <= 50) {
@@ -168,9 +185,7 @@ function loop() {
     requestAnimationFrame(loop);
 
     counter++;
-    if (counter % 60 == 0) {
-        console.log('ADD');
-        console.log(balls.length);
+    if (counter % 300 == 0) {
         balls.unshift(returnBall());
     }
 
