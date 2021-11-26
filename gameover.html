@@ -9,12 +9,55 @@
         }
         
         p {
-            color: black;
+            font-size: 2rem;
+            letter-spacing: -1px;
+            position: absolute;
+            margin: 0;
+            top: 400px;
+            right: 100px;
+            color: transparent;
+            text-shadow: 0 0 4px rgb(247, 7, 7);
         }
         
         button {
-            color: red;
+            position: absolute;
+            margin: 0;
+            top: 500px;
+            right: 100px;
+            width: 100px;
             font-weight: bold;
+        }
+        
+        button {
+            /* ブラウザ特有のスタイルを無効に */
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            /* 整える */
+            margin: 1em 0;
+            /* 前後の隙間 */
+            padding: 0.6em 1em;
+            /* 塗りの余白 */
+            font-size: 1em;
+            /* フォントサイズ */
+            background-color: #f76161;
+            /* 背景色 */
+            color: #FFF;
+            /* テキストカラー */
+            cursor: pointer;
+            /* カーソルを指マークに */
+            border-radius: 3px;
+            /* 角の丸み */
+            border: 0;
+            /* 枠線を消す */
+            transition: 0.3s;
+            /* ホバーの変化を滑らかに */
+        }
+        /* ホバー時（カーソルをのせた時）の見た目 */
+        
+        button:hover {
+            background-color: red;
+            /* 背景色 */
         }
     </style>
 </header>
@@ -23,50 +66,28 @@
     <img src="img/gameover.png" width="500px">
     <p></p>
 
-    <label for='input'>ゲームレベル: </label>
-    <select id='input'>
-        <option value=''>--難易度を選んでね--</option>
-        <option value='easy'>幼稚園児レベル</option>
-        <option value='middle'>凡人レベル</option>
-        <option value='difficult'>達人レベル</option>
-        <option value='hell'>地獄レベル</option>
-    </select>
-    <!-- <input type='text' value='10'> -->
     <button type='submit'>再挑戦</button>
 
     <script>
         const time = location.search.split("=")[1];
         const para = document.querySelector('p');
         const button = document.querySelector('button');
-        para.textContent = 'You survived for ' + time + ' frames!';
+        const img = document.querySelector("img");
 
+        let winWidth = window.innerWidth;
+        let winHeight = window.innerHeight;
 
-        const select = document.querySelector('select');
-        select.focus();
+        img.style.width = winWidth + 'px';
+        img.style.height = winHeight + 'px';
+        para.textContent = '生存タイム: ' + time + ' 秒';
 
         function transferPage() {
-            var nballs;
-            switch (select.value) {
-                case 'easy':
-                    nballs = 10;
-                    break;
-                case 'middle':
-                    nballs = 30;
-                    break;
-                case 'difficult':
-                    nballs = 50;
-                    break;
-                case 'hell':
-                    nballs = 100;
-                    break;
-                default:
-                    nballs = 30;
-            }
-            let mainPage = 'index.html?nballs=' + nballs;
+            let mainPage = 'index.html';
             window.location.href = mainPage;
         }
 
         button.addEventListener('click', transferPage)
+        button.focus();
     </script>
 
 </html>

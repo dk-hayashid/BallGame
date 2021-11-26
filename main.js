@@ -77,7 +77,7 @@ Ball.prototype.collisionDetect = function() {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < this.size + balls[j].size) {
-                balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
+                // balls[j].coxlor = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
                 this.nCollision++;
             }
 
@@ -86,12 +86,10 @@ Ball.prototype.collisionDetect = function() {
 }
 
 let balls = [];
+let nBalls = 10;
+// var nBalls = location.search.split("=")[1];
 
-var nBalls = location.search.split("=")[1];
-if (nBalls === undefined) {
-    nBalls = 10;
-}
-while (balls.length < nBalls) {
+function returnBall() {
     let size = random(10, 20);
     let ball = new Ball(
         random(0 + size, width - size),
@@ -102,7 +100,10 @@ while (balls.length < nBalls) {
         'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')',
         size
     );
-
+    return ball;
+}
+while (balls.length < nBalls) {
+    let ball = returnBall();
     balls.push(ball);
 }
 
@@ -126,8 +127,11 @@ function updateHp(nCollision) {
 var counter = 0;
 var myballDamage = 0;
 var timeDamage = 0;
+let time = 0;
 
 function loop() {
+
+    time = Math.floor(counter / 60);
     ctx.fillStyle = 'rgba(255, 255, 0, 0.25)';
     ctx.fillRect(0, 0, width, height);
 
@@ -139,7 +143,7 @@ function loop() {
 
     // ゲーム終了条件
     if (myballDamage >= nHeart) {
-        document.location.href = "gameover.html" + "?time=" + counter;
+        document.location.href = "gameover.html" + "?time=" + time;
         return;
     }
 
@@ -156,16 +160,21 @@ function loop() {
         balls[balls.length - 1].nCollision = 0;
     }
 
-    console.log(myballDamage);
+    console.log(time);
 
 
-
-
-    showTime.textContent = 'Time:' + counter;
+    showTime.textContent = 'Time:' + time;
 
     requestAnimationFrame(loop);
 
     counter++;
+    if (counter % 60 == 0) {
+        console.log('ADD');
+        console.log(balls.length);
+        balls.unshift(returnBall());
+    }
+
+
 }
 
 loop();
