@@ -40,10 +40,14 @@ function Ball(x, y, velX, velY, color, size) {
     this.nCollision = 0;
 }
 
+function degToRad(angle) {
+    return angle * Math.PI / 180;
+}
+
 Ball.prototype.draw = function() {
     ctx.beginPath();
     ctx.fillStyle = this.color;
-    ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+    ctx.arc(this.x, this.y, this.size, degToRad(0), degToRad(360));
     ctx.fill();
 }
 
@@ -73,7 +77,7 @@ Ball.prototype.collisionDetect = function() {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < this.size + balls[j].size) {
-                balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
+                // balls[j].coxlor = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
                 this.nCollision++;
             }
 
@@ -82,12 +86,10 @@ Ball.prototype.collisionDetect = function() {
 }
 
 let balls = [];
+let nBalls = 10;
+// var nBalls = location.search.split("=")[1];
 
-var nBalls = location.search.split("=")[1];
-if (nBalls === undefined) {
-    nBalls = 10;
-}
-while (balls.length < nBalls) {
+function returnBall() {
     let size = random(10, 20);
     let ball = new Ball(
         random(0 + size, width - size),
@@ -98,13 +100,33 @@ while (balls.length < nBalls) {
         'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')',
         size
     );
-
+    return ball;
+}
+while (balls.length < nBalls) {
+    let ball = returnBall();
     balls.push(ball);
 }
 
-
+// Player Ball
+const image = new Image();
+image.src = 'smile.png';
+// console.log(image.naturalWidth, image.naturalHeight);
 let myball = new Ball(100, 100, 0, 0, 'rgba(255,0,255)', 10);
-canvas.addEventListener('touchmove', touchmove);
+myball.size = 20;
+myball.draw = function() {
+    // ctx.beginPath();
+    // ctx.fillStyle = this.color;
+    // ctx.arc(this.x, this.y, this.size, degToRad(0), degToRad(360));
+    // ctx.fill();
+    ctx.drawImage(image, 0, 0, image.naturalWidth, image.naturalHeight,
+        this.x - this.size, this.y - this.size, 2 * this.size, 2 * this.size);
+}
+
+function mousemove(e) {
+    myball.x = e.clientX;
+    myball.y = e.clientY;
+    myball.draw();
+}
 canvas.addEventListener('mousemove', mousemove);
 
 function touchmove(e) {
@@ -114,13 +136,7 @@ function touchmove(e) {
     myball.draw();
 
 }
-
-function mousemove(e) {
-
-    myball.x = e.clientX;
-    myball.y = e.clientY;
-    myball.draw();
-}
+canvas.addEventListener('touchmove', touchmove);
 balls.push(myball);
 
 function updateHp(nCollision) {
@@ -131,9 +147,12 @@ function updateHp(nCollision) {
 var counter = 0;
 var myballDamage = 0;
 var timeDamage = 0;
+let time = 0;
 
 function loop() {
-    ctx.fillStyle = 'rgba(30, 30, 30, 0.25)';
+
+    time = Math.floor(counter / 60);
+    ctx.fillStyle = 'rgba(255, 255, 0, 0.25)';
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < balls.length; i++) {
@@ -144,7 +163,7 @@ function loop() {
 
     // ゲーム終了条件
     if (myballDamage >= nHeart) {
-        document.location.href = "gameover.html" + "?time=" + counter;
+        document.location.href = "gameover.html" + "?time=" + time;
         return;
     }
 
@@ -155,22 +174,30 @@ function loop() {
         updateHp(myballDamage);
         // balls[balls.length - 1].nCollision = 0;
     }
+    if ((counter - timeDamage) <= 50) {
+        image.src = 'pien.png';
+    } else {
+        image.src = 'smile.png'
+    }
+    console.log(counter - timeDamage);
 
     // タイミング緩和(前回の衝突から10フレームは衝突していてもノーカウント)
     if ((counter - timeDamage) <= 50) {
         balls[balls.length - 1].nCollision = 0;
     }
 
-    console.log(myballDamage);
+    console.log(time);
 
-
-
-
-    showTime.textContent = 'Time:' + counter;
+    showTime.textContent = 'Time:' + time;
 
     requestAnimationFrame(loop);
 
     counter++;
+    if (counter % 300 == 0) {
+        balls.unshift(returnBall());
+    }
+
+
 }
 
 loop();
