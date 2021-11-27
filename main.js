@@ -128,6 +128,15 @@ function mousemove(e) {
     myball.draw();
 }
 canvas.addEventListener('mousemove', mousemove);
+
+function touchmove(e) {
+
+    myball.x = e.changedTouches[0].clientX;
+    myball.y = e.changedTouches[0].clientY;
+    myball.draw();
+
+}
+canvas.addEventListener('touchmove', touchmove);
 balls.push(myball);
 
 function updateHp(nCollision) {
