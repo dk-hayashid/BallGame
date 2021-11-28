@@ -177,14 +177,18 @@ function loop() {
     if ((counter - timeDamage) <= 50) {
         image.src = 'pien.png';
     } else {
-        image.src = 'smile.png'
+        image.src = 'smile.png';
     }
     console.log(counter - timeDamage);
 
     // タイミング緩和(前回の衝突から10フレームは衝突していてもノーカウント)
     if ((counter - timeDamage) <= 50) {
         balls[balls.length - 1].nCollision = 0;
+        if ((counter - timeDamage) % 5 !== 0) {
+            image.src = '';
+        }
     }
+
 
     console.log(time);
 
