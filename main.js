@@ -73,6 +73,7 @@ class PlayerBall extends Ball {
         this.icon = new Image();
     }
     collisionDetect(balls) {
+        let array = [];
         for (let j = 0; j < balls.length; j++) {
             if (!(this === balls[j])) {
                 const dx = this.x - balls[j].x;
@@ -82,10 +83,12 @@ class PlayerBall extends Ball {
                 if (distance < this.size + balls[j].size) {
                     // balls[j].coxlor = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
                     this.nCollision++;
+                    array.push(j)
                 }
 
             }
         }
+        return array;
     }
     draw(ctx) {
         ctx.drawImage(this.icon, 0, 0, this.icon.naturalWidth, this.icon.naturalHeight,
@@ -150,13 +153,18 @@ var myballDamage = 0;
 var timeDamage = 0;
 let nattacks = 0;
 let time = 0;
+let attackflag = false;
 
 function loop() {
 
     // 時間更新 & キャンバス作成
     time = Math.floor(counter / 60);
     showTime.textContent = 'Time:' + time;
-    ctx.fillStyle = 'rgba(255, 255, 0, 0.25)';
+    if (!attackflag) {
+        ctx.fillStyle = 'rgba(255, 255, 0, 0.25)';
+    } else {
+        ctx.fillStyle = 'rgba(255, 0, 0, 0.25)';
+    }
     ctx.fillRect(0, 0, width, height);
 
 
@@ -176,8 +184,8 @@ function loop() {
 
 
     // HP減少条件 
-    myball.collisionDetect(balls);
-    if (counter > 60) {
+    collisionballs = myball.collisionDetect(balls);
+    if (counter > 60 && !attackflag) {
 
         // 1回以上の衝突 and 前回の衝突から1秒経過 => HPが1減少
         if (myball.nCollision > 0 && (counter - timeDamage) > 60) {
@@ -201,15 +209,24 @@ function loop() {
     }
 
 
-    // ボール増殖
-    if (counter % 300 == 0) {
-        balls.unshift(returnBall());
+    // 攻撃
+    if ((60 * 30) < counter && counter < (60 * 35)) {
+        myball.icon.src = 'img/face/anger.png';
+        balls.splice(collisionballs, collisionballs.length);
+        attackflag = true;
+    } else {
+        attackflag = false;
     }
 
+    // ボール増殖
+    if (counter % 100 == 0) {
+        balls.unshift(returnBall());
+    }
 
     counter++;
     requestAnimationFrame(loop);
 
+    console.log(counter);
 }
 
 loop();
