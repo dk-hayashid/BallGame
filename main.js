@@ -185,6 +185,9 @@ function loop() {
 
     // HP減少条件 
     collisionballs = myball.collisionDetect(balls);
+    if (attackflag) {
+        myball.nCollision = 0;
+    }
     if (collisionballs.length) {
         myball.size += (balls[collisionballs[0]].size / 30);
     }
