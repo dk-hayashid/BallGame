@@ -185,6 +185,10 @@ function loop() {
 
     // HP減少条件 
     collisionballs = myball.collisionDetect(balls);
+    if (collisionballs.length) {
+        myball.size += (balls[collisionballs[0]].size / 30);
+    }
+    console.log(collisionballs);
     if (counter > 60 && !attackflag) {
 
         // 1回以上の衝突 and 前回の衝突から1秒経過 => HPが1減少
@@ -210,7 +214,7 @@ function loop() {
 
 
     // 攻撃
-    if ((60 * 30) < counter && counter < (60 * 35)) {
+    if ((60 * 20) < counter && counter < (60 * 25)) {
         myball.icon.src = 'img/face/anger.png';
         balls.splice(collisionballs, collisionballs.length);
         attackflag = true;
